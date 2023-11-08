@@ -5,55 +5,89 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.androidproject.databinding.FragmentMainBinding
+import com.example.androidproject.databinding.FragmentProfileBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [profileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class profileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    val items = arrayListOf(//리스트의 길이 변경 가능
+        Item("Title", "I'm selling", "Ilsan", "P1su",false, false,"none"),
+        Item("Coffee", "Selled", "Ilsan", "P1su",true, false,"none"),
+        Item("Guitar", "Good", "Seoul", "Joe",false, true,"none"),
+        Item("Computer", "Cheap", "Busan", "Kim",false, false,"전자기기"),
+        Item("Bike", "New", "Incheon", "Park",false, false,"none"),
+        Item("Book", "Old", "Suwon", "Lee",false,false,"none"),
+        Item("Mask", "Color is white", "Sejong", "Song",false, false,"none")
+    )
 
+    var binding : FragmentProfileBinding ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        binding = FragmentProfileBinding.inflate(inflater)
+
+        return binding?.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment profileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding?.recMyitem?.layoutManager=LinearLayoutManager(context)
+
+        binding?.btnSelling?.setOnClickListener{
+            val filteredList =ArrayList<Item>()
+            for(i in items){
+                if(i.id == "go" && i.selled == false){
+                    filteredList.add(i)
+                }
+            }
+            if(filteredList.isEmpty()){
+                Toast.makeText(context,"판매중인 상품이 없습니다.",Toast.LENGTH_SHORT).show()
+            }else binding?.recMyitem?.adapter = itemAdapter(filteredList)
+        }
+
+        binding?.btnSelled?.setOnClickListener{
+            val filteredList =ArrayList<Item>()
+            for(i in items){
+                if(i.selled == true){
+                    filteredList.add(i)
+                }
+            }
+            if(filteredList.isEmpty()){
+                Toast.makeText(context,"판매 완료된 없습니다.",Toast.LENGTH_SHORT).show()
+            }else binding?.recMyitem?.adapter = itemAdapter(filteredList)
+        }
+
+        binding?.btnLikelist?.setOnClickListener{
+            val filteredList =ArrayList<Item>()
+            for(i in items){
+                if(i.like == true){
+                    filteredList.add(i)
+                }
+            }
+            if(filteredList.isEmpty()){
+                Toast.makeText(context,"찜한 상품이 없습니다.",Toast.LENGTH_SHORT).show()
+            }else binding?.recMyitem?.adapter = itemAdapter(filteredList)
+        }
+
+    }
+
+
+/*    companion object {
         fun newInstance(param1: String, param2: String) =
-            profileFragment().apply {
+            mainFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
                 }
             }
-    }
+    }*/
 }

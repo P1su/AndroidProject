@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">AndroidProject</string>
     <!-- Strings related to login -->
+    <string-array name="categories">
+        <item>가전제품</item>
+        <item>전자기기</item>
+        <item>악기</item>
+    </string-array>
+
+
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
