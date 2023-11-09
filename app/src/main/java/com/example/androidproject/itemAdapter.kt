@@ -1,5 +1,6 @@
 package com.example.androidproject
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -12,6 +13,7 @@ class itemAdapter(private var items: ArrayList<Item>):RecyclerView.Adapter<itemA
         this.items = items
         notifyDataSetChanged()//데이터가 변경됨을 알림.
     }
+
     fun setLike(items : ArrayList<Item>){
 
     }
@@ -37,6 +39,8 @@ class itemAdapter(private var items: ArrayList<Item>):RecyclerView.Adapter<itemA
             binding.btnLike.setOnClickListener{
 
             }
+
+
         }
 
 
