@@ -1,12 +1,13 @@
 package com.example.androidproject
 
-class Item(
-    val title: String,
-    val body: String,
-    val location: String,
-    val id: String,
-    val selled: Boolean,
-    var like: Boolean,
-    val category: String
+data class Item(
+    var title: String="",
+    var body: String="",
+    var location: String="",
+    var id: String="",
+    var selled: Boolean=false,
+    var like: Boolean=false,
+    var category: String="",
+    var price: Int=0
 
 )
