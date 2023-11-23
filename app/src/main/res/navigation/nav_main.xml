@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.androidproject.mainFragment"
@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_mainFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_chatproductFragment"
+            app:destination="@id/chatproductFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
@@ -60,4 +63,30 @@
         android:name="com.example.androidproject.historyFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/chatproductFragment"
+        android:name="com.example.androidproject.chatproductFragment"
+        android:label="fragment_chatproduct"
+        tools:layout="@layout/fragment_chatproduct" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.androidproject.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_signinFragment2"
+            app:destination="@id/signinFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signinFragment2"
+        android:name="com.example.androidproject.SigninFragment"
+        android:label="fragment_signin"
+        tools:layout="@layout/fragment_signin" >
+        <action
+            android:id="@+id/action_signinFragment2_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>
