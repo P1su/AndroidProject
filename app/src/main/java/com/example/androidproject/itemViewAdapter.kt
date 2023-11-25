@@ -11,12 +11,6 @@ import com.example.androidproject.databinding.ItemListBinding
 import com.example.androidproject.viewmodel.ItemViewModel
 
 class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerView.Adapter<itemViewAdapter.Holder>() {//배열 정의된 item을 생성자로 받음
-    //val viewModel = ItemViewModel()
-
-    fun setFilteredList(items : LiveData<ArrayList<Item>>){//items를 새롭게 정의
-        this.items = items
-        notifyDataSetChanged()//데이터가 변경됨을 알림.
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {//viewholder가 생성
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context))//,parent, false
@@ -53,15 +47,15 @@ class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerVie
             binding.txtId.text = items.id
 
             binding.btnLike.setOnClickListener {
-                Log.d("${items.title}", "${items.like}")
+
                 if(items.like == false)items.like = true
                 else items.like = false
+
                 viewModel.setLike(items.like, items.title)
-                Log.d("send like", "${items.like}")
+
             }
 
 
-            //  val btn = binding.btnLike as Button
 
         }
     }

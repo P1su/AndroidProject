@@ -28,7 +28,6 @@ class RecDataRepository {
 
             override fun onDataChange(snapshot: DataSnapshot) {//data를 읽어오고 바뀔 때
                 if(snapshot.exists()){
-
                     listdata.clear()
 
                     for(userSnapshot in snapshot.children){
@@ -40,9 +39,7 @@ class RecDataRepository {
 
                         userList.postValue(listdata)
                     }
-
                 }
-
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -80,6 +77,7 @@ class RecDataRepository {
         })
 
     }
+
 
 
 

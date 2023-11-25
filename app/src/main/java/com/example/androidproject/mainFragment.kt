@@ -70,10 +70,10 @@ class mainFragment : Fragment() {
 
         binding?.searchTitle?.setOnQueryTextListener(searchViewTextListener)
         binding?.btnCategory?.setOnClickListener {
-               showDialog()
+            showDialog()
         }
         binding?.btnPrice?.setOnClickListener {
-                  showBar()
+            showBar()
         }
         binding?.btnTomap?.setOnClickListener {
             findNavController().navigate(R.id.action_mainFragment_to_mapFragment)
@@ -108,6 +108,7 @@ class mainFragment : Fragment() {
             it.setMultiChoiceItems( // 아이템을 여러개 선택
                 R.array.categories, null//string.xml파일에 데이터를 저장
             ) { dialog, which, isChecked -> // DialogInterface.OnMultiChoiceClickListener object의 override onClick함수 << 람다형식
+
                 val category = resources.getStringArray(R.array.categories)//category데이터를 임시로 담아둔다
 
                 if (isChecked) {//체크되면 추가하고 아니면 삭제
@@ -118,33 +119,30 @@ class mainFragment : Fragment() {
 
             it.setPositiveButton("확인") { dialog, which ->
                 val filteredList = ArrayList<Item>()
-                //val filteredList = MutableLiveData<ArrayList<Item>>()
+
                 viewModel.userList.value?.let{
 
                     for(i in 0..<it.count()){//뷰모델의 아이템들을 대상으로
-
                         for(j in selectedCategory){//선택된 카테고리와 일치하는지 탐색
 
                             if(it[i].category == j){
-                                filteredList += it[i]
-                               // filteredList.value?.add(i) //일치한다면 새로운 리스트에 아이템을 담아줌
+                                filteredList += it[i]//일치한다면 새로운 리스트에 아이템을 담아줌
                             }
                         }
-
                     }
 
                 }
                 if (filteredList.isEmpty()) {//해당하는 제품이 아뭓도 없다면
-                    Toast.makeText(context, "해당하는 상품이 없습니다.", Toast.LENGTH_SHORT).show()
-                    viewModel.setData(viewModel.items)//토스트 메세지 띄우면서 처음 상태로 초기화
+                    Toast.makeText(context, "해당하는 상품이 없습니다.", Toast.LENGTH_SHORT).show()//토스트 메세지 띄운다.
 
-                } else viewModel.setData(filteredList)//viewModel.setData(filteredList)//해당하는 제품들만 노출
+                } else viewModel.setData(filteredList)//해당하는 제품들만 노출
+
 
             }
 
             it.setNegativeButton("닫기") { dialog, which -> // Dialoginterface.OnclieckListner...dialog는 DialogInterface>, which는 int이다
                 dialog.cancel()//닫으면서 초기화
-               // viewModel.setData(viewModel.items)
+                viewModel.resetData()
             }
 
             it.show()//다일얼로그를 보여줌
@@ -180,12 +178,12 @@ class mainFragment : Fragment() {
 
                 val filteredList = ArrayList<Item>()
 
-                viewModel?.let {
+                viewModel.userList.value?.let {
 
-                    for(i in it.items){
+                    for(i in 0..<it.count()){
 
-                        if(i.price >= startPrice && i.price <= endPrice){
-                            filteredList += i
+                        if(it[i].price in startPrice..endPrice){
+                            filteredList += it[i]
                         }
 
                     }
@@ -193,17 +191,14 @@ class mainFragment : Fragment() {
 
                 if (filteredList.isEmpty()) {
                     Toast.makeText(context, "희망하시는 가격대의 상품이 없습니다.", Toast.LENGTH_SHORT).show()
-                    viewModel.setData(viewModel.items)
-                } else {
-                    viewList.observe(viewLifecycleOwner){
-                        viewModel.setData(filteredList)
-                    }
-                }
 
+                } else viewModel.setData(filteredList)
 
             }
+
             it.setNegativeButton("닫기"){dialog , which ->
-                viewModel.setData(viewModel.items)
+                dialog.cancel()
+                viewModel.resetData()
             }
 
             it.show()
