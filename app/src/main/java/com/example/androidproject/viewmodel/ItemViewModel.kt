@@ -1,6 +1,7 @@
 package com.example.androidproject.viewmodel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +17,7 @@ class ItemViewModel:ViewModel(){
     var items =ArrayList<Item>()
     private val repository = RecDataRepository()
     init{
-      /*  items = arrayListOf(//리스트의 길이 변경 가능
+        /*items = arrayListOf(//리스트의 길이 변경 가능
             Item("Title", "I'm selling", "Ilsan", "P1su",false, false,"가전제품",50000),
             Item("Coffee", "Selled", "Ilsan", "P1su",true, false,"none",10000),
             Item("Guitar", "Good", "Seoul", "Joe",false, true,"악기",200000),
@@ -29,15 +30,16 @@ class ItemViewModel:ViewModel(){
         repository.observeUser(_userList)
     }
 
-    fun setLike(newValue : Boolean){
-        Log.d("In viewmodel", "$newValue")
-        repository.setLike(newValue)
+    fun setLike(newLike : Boolean, title : String){
+        //g.d("In viewmodel", "$newValue")
+        repository.setLike(newLike, title)
+
 
     }
     fun setData(newList : ArrayList<Item>){
         if(newList.isEmpty()){
-            repository.observeUser(_userList)
-        }else repository.setData(newList)
+        //    repository.observeUser(_userList)
+        }//else repository.setData(newList)
     }
 
 

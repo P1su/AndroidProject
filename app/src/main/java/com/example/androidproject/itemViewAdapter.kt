@@ -36,13 +36,13 @@ class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerVie
         }
 
 
-
         // Log.d("In bind", "${items[0].like}")
 
     }
 
     class Holder(private val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root) {
         //뷰홀더
+
         fun bind(items: Item) {
             val viewModel = ItemViewModel()
             val btn = binding.btnLike as Button
@@ -54,8 +54,9 @@ class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerVie
 
             binding.btnLike.setOnClickListener {
                 Log.d("${items.title}", "${items.like}")
-                items.like != items.like
-                viewModel.setLike(items.like)
+                if(items.like == false)items.like = true
+                else items.like = false
+                viewModel.setLike(items.like, items.title)
                 Log.d("send like", "${items.like}")
             }
 

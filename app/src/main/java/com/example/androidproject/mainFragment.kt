@@ -67,6 +67,7 @@ class mainFragment : Fragment() {
                 binding?.recItem?.adapter = itemViewAdapter
             }
         }
+
         binding?.searchTitle?.setOnQueryTextListener(searchViewTextListener)
         binding?.btnCategory?.setOnClickListener {
                showDialog()
@@ -100,7 +101,7 @@ class mainFragment : Fragment() {
     }
     private fun showDialog() {
         var selectedCategory = arrayListOf<String>()//선택된 항목 담음
-        var num = 1
+
         var builder = AlertDialog.Builder(context)?.let { it ->//다이얼로그 구현
             it.setTitle("카테고리")//다이얼로그의 이름
             //멀티 선택 이벤트
@@ -119,25 +120,31 @@ class mainFragment : Fragment() {
                 val filteredList = ArrayList<Item>()
                 //val filteredList = MutableLiveData<ArrayList<Item>>()
                 viewModel.userList.value?.let{
+
                     for(i in 0..<it.count()){//뷰모델의 아이템들을 대상으로
+
                         for(j in selectedCategory){//선택된 카테고리와 일치하는지 탐색
+
                             if(it[i].category == j){
                                 filteredList += it[i]
                                // filteredList.value?.add(i) //일치한다면 새로운 리스트에 아이템을 담아줌
                             }
                         }
+
                     }
+
                 }
                 if (filteredList.isEmpty()) {//해당하는 제품이 아뭓도 없다면
                     Toast.makeText(context, "해당하는 상품이 없습니다.", Toast.LENGTH_SHORT).show()
                     viewModel.setData(viewModel.items)//토스트 메세지 띄우면서 처음 상태로 초기화
+
                 } else viewModel.setData(filteredList)//viewModel.setData(filteredList)//해당하는 제품들만 노출
 
             }
 
             it.setNegativeButton("닫기") { dialog, which -> // Dialoginterface.OnclieckListner...dialog는 DialogInterface>, which는 int이다
                 dialog.cancel()//닫으면서 초기화
-                viewModel.setData(viewModel.items)
+               // viewModel.setData(viewModel.items)
             }
 
             it.show()//다일얼로그를 보여줌
@@ -170,12 +177,17 @@ class mainFragment : Fragment() {
             it.setView(RangeView)//슬라이드바를 보여준다
 
             it.setPositiveButton("확인"){dialog , which -> //다이얼로그의 내장 함수. 슬라이드 범위 설정 후 확인을 누를 시
+
                 val filteredList = ArrayList<Item>()
+
                 viewModel?.let {
+
                     for(i in it.items){
+
                         if(i.price >= startPrice && i.price <= endPrice){
                             filteredList += i
                         }
+
                     }
                 }
 
