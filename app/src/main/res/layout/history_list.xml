@@ -19,7 +19,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/txt_name"
+        android:id="@+id/txt_userId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -32,13 +32,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txt_msg"
+        android:id="@+id/txt_lastMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="안녕하세요"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txt_name" />
+        app:layout_constraintStart_toStartOf="@+id/txt_userId" />
 
     <TextView
         android:id="@+id/txt_date"
@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="11월 9일"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_name"
-        app:layout_constraintStart_toEndOf="@+id/txt_name"
-        app:layout_constraintTop_toTopOf="@+id/txt_name" />
+        app:layout_constraintBottom_toBottomOf="@+id/txt_userId"
+        app:layout_constraintStart_toEndOf="@+id/txt_userId"
+        app:layout_constraintTop_toTopOf="@+id/txt_userId" />
 
     <ImageView
         android:id="@+id/img_item"

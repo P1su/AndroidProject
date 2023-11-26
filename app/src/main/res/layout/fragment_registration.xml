@@ -91,7 +91,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/edt_info"
+            android:id="@+id/edt_content"
             android:layout_width="match_parent"
             android:layout_height="342dp"
             android:ems="10"
