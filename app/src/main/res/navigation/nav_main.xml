@@ -21,12 +21,19 @@
         <action
             android:id="@+id/action_mainFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_chatproductFragment"
+            app:destination="@id/chatproductFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.example.androidproject.mapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.androidproject.profileFragment"
@@ -56,4 +63,9 @@
         android:name="com.example.androidproject.historyFragment"
         android:label="fragment_history"
         tools:layout="@layout/fragment_history" />
+    <fragment
+        android:id="@+id/chatproductFragment"
+        android:name="com.example.androidproject.chatproductFragment"
+        android:label="fragment_chatproduct"
+        tools:layout="@layout/fragment_chatproduct" />
 </navigation>
