@@ -1,33 +1,25 @@
 package com.example.androidproject
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.androidproject.databinding.FragmentMainBinding
+import com.example.androidproject.dataclass.Item
 import com.example.androidproject.viewmodel.ItemViewModel
 import com.google.android.material.slider.RangeSlider
-
 class mainFragment : Fragment() {
 
     private var searchViewTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {//검색 버튼 입력시 호출
+        //    filterList(query)
             return false
         }
 
@@ -41,7 +33,8 @@ class mainFragment : Fragment() {
     val viewModel: ItemViewModel by activityViewModels()
     var binding: FragmentMainBinding? = null
     val viewList get() = viewModel.userList//getter 사용하기!! LiveData<Arraylist>
-
+    private val filter = dataFilter()
+    private var filteredList = ArrayList<Item>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +49,7 @@ class mainFragment : Fragment() {
 
         return binding?.root
     }
-    val itemViewAdapter get()= itemViewAdapter(viewList)
+    private val itemViewAdapter get()= itemViewAdapter(viewList)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -85,19 +78,19 @@ class mainFragment : Fragment() {
     }
 
     private fun filterList(query: String?) {//입력된 텍스트를 받아옴
-        val filteredList = MutableLiveData<ArrayList<Item>>()//새 리사이클러뷰를 위한 리스트 생성
+        val filteredList = ArrayList<Item>()//새 리사이클러뷰를 위한 리스트 생성
 
         query?.let {//텍스트가 널이 아니면
             viewList.value?.let {
                 for(i in it){
                     if(i.title.lowercase().contains(query)){
-                        filteredList.value?.add(i)
+                        filteredList.add(i)
                     }
                 }
             }
-            itemViewAdapter(filteredList)
-
+            viewModel.setData(filteredList)
         }
+
     }
     private fun showDialog() {
         var selectedCategory = arrayListOf<String>()//선택된 항목 담음
@@ -118,25 +111,16 @@ class mainFragment : Fragment() {
             }
 
             it.setPositiveButton("확인") { dialog, which ->
-                val filteredList = ArrayList<Item>()
 
-                viewModel.userList.value?.let{
-
-                    for(i in 0..<it.count()){//뷰모델의 아이템들을 대상으로
-                        for(j in selectedCategory){//선택된 카테고리와 일치하는지 탐색
-
-                            if(it[i].category == j){
-                                filteredList += it[i]//일치한다면 새로운 리스트에 아이템을 담아줌
-                            }
-                        }
-                    }
+                viewModel.userList.value?.let {
+                    filteredList = filter.dialogFilter(it, selectedCategory)
 
                 }
+
                 if (filteredList.isEmpty()) {//해당하는 제품이 아뭓도 없다면
                     Toast.makeText(context, "해당하는 상품이 없습니다.", Toast.LENGTH_SHORT).show()//토스트 메세지 띄운다.
 
                 } else viewModel.setData(filteredList)//해당하는 제품들만 노출
-
 
             }
 
@@ -176,23 +160,16 @@ class mainFragment : Fragment() {
 
             it.setPositiveButton("확인"){dialog , which -> //다이얼로그의 내장 함수. 슬라이드 범위 설정 후 확인을 누를 시
 
-                val filteredList = ArrayList<Item>()
-
                 viewModel.userList.value?.let {
+                    filteredList = filter.priceFilter(it, startPrice, endPrice)
 
-                    for(i in 0..<it.count()){
-
-                        if(it[i].price in startPrice..endPrice){
-                            filteredList += it[i]
-                        }
-
-                    }
                 }
 
                 if (filteredList.isEmpty()) {
                     Toast.makeText(context, "희망하시는 가격대의 상품이 없습니다.", Toast.LENGTH_SHORT).show()
 
                 } else viewModel.setData(filteredList)
+
 
             }
 
@@ -240,5 +217,3 @@ class mainFragment : Fragment() {
 
 
 }
-
-

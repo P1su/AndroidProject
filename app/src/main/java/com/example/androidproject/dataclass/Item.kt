@@ -1,4 +1,4 @@
-package com.example.androidproject
+package com.example.androidproject.dataclass
 
 data class Item(
     var title: String="",

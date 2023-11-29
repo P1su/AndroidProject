@@ -1,13 +1,12 @@
 package com.example.androidproject
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidproject.databinding.ItemListBinding
+import com.example.androidproject.dataclass.Item
 import com.example.androidproject.viewmodel.ItemViewModel
 
 class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerView.Adapter<itemViewAdapter.Holder>() {//배열 정의된 item을 생성자로 받음

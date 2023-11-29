@@ -1,11 +1,10 @@
 package com.example.androidproject
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidproject.databinding.ItemListBinding
+import com.example.androidproject.dataclass.Item
 
 class itemAdapter(private var items: ArrayList<Item>):RecyclerView.Adapter<itemAdapter.Holder>() {//배열 정의된 item을 생성자로 받음
 

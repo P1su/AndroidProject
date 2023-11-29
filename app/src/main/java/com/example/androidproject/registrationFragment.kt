@@ -48,7 +48,6 @@ class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         }
 
     }
-
     // 카테고리 버튼 팝업창 띄우기
     private fun showPopup(v: View){
         val popup = PopupMenu(context, v)

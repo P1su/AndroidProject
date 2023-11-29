@@ -1,21 +1,13 @@
 package com.example.androidproject.repository
 
-import android.widget.Toast
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.androidproject.Item
-import com.example.androidproject.User
-import com.example.androidproject.mainFragment
+import com.example.androidproject.dataclass.Item
+
 import com.google.firebase.Firebase
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.childEvents
 import com.google.firebase.database.database
-import com.google.firebase.database.getValue
-import com.google.firebase.database.snapshots
-import com.google.firebase.database.values
 
 class RecDataRepository {
     val database = Firebase.database
@@ -57,14 +49,17 @@ class RecDataRepository {
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
+
                 for(userSnapshot in snapshot.children){
 
                     val getData = userSnapshot.getValue(Item::class.java)
 
                     if( getData?.title== title){
 
-                        userRef.child(userSnapshot.key!!).updateChildren(map as Map<String, Any>)
-                        getData?.like = newValue
+                        userSnapshot.key?.let{
+                            userRef.child(it).updateChildren(map as Map<String, Any>)
+                        }
+                        getData.like = newValue
                     }
 
                 }
@@ -77,10 +72,4 @@ class RecDataRepository {
         })
 
     }
-
-
-
-
-
-
 }
