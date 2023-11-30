@@ -29,21 +29,20 @@ class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerVie
         }
 
 
-        // Log.d("In bind", "${items[0].like}")
-
     }
 
     class Holder(private val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root) {
         //뷰홀더
 
         fun bind(items: Item) {
+
             val viewModel = ItemViewModel()
             val btn = binding.btnLike as Button
 
             binding.txtTitle.text = items.title
-            binding.txtBody.text = items.body
+            binding.txtBody.text = items.content
             binding.txtLocation.text = items.location
-            binding.txtId.text = items.id
+            binding.txtId.text = items.userId
 
             binding.btnLike.setOnClickListener {
 

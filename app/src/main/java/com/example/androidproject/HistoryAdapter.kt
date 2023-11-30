@@ -12,6 +12,7 @@ class HistoryAdapter: RecyclerView.Adapter<HistoryAdapter.Holder>(){
 
     fun setUserList(data: ArrayList<History>){
         users = data
+        notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = HistoryListBinding.inflate(LayoutInflater.from(parent.context))

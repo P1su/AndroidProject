@@ -72,4 +72,10 @@ class RecDataRepository {
         })
 
     }
+
+    fun addProductToDatabase(item: Item){
+        userRef.push().setValue(item)
+    }
+
+
 }

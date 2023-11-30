@@ -34,10 +34,10 @@ class historyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeUser()
         binding?.recUsers?.layoutManager = LinearLayoutManager(context)
         binding?.recUsers?.adapter = HistoryAdapter()
 
-        observeUser()
     }
 
     fun observeUser(){

@@ -11,14 +11,17 @@ import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.activityViewModels
 import com.example.androidproject.databinding.FragmentRegistrationBinding
+import com.example.androidproject.dataclass.Item
 import com.example.androidproject.dataclass.RegisterInfo
 import com.example.androidproject.viewmodel.HistoryViewModel
+import com.example.androidproject.viewmodel.ItemViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
 class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private val viewModel: HistoryViewModel by activityViewModels()
+    private val itemViewModel : ItemViewModel by activityViewModels()//P
     private var binding: FragmentRegistrationBinding? = null
     private var category: String ?= null
 
@@ -42,9 +45,15 @@ class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         binding?.btnSave?.setOnClickListener {
             val date = getTime()
             val product = RegisterInfo(" ", binding?.edtTitle.toString(), binding?.edtPrice.toString(),
-                category.toString(), " ", binding?.edtContent.toString(), " ", date)
+                category.toString(), " ", binding?.edtContent.toString(), " ", date
+            )
+            val prod2 = Item(" ", binding?.edtTitle.toString(), binding?.edtPrice.toString(),
+                category.toString(), " ", binding?.edtContent.toString(), " ", date,
+                selled = false,
+                like = false
+            )
             viewModel.registerProduct(product)
-
+            itemViewModel.registerProduct(prod2)
         }
 
     }
