@@ -3,6 +3,7 @@ package com.example.androidproject.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidproject.dataclass.History
+import com.example.androidproject.dataclass.Item
 import com.example.androidproject.dataclass.RegisterInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -39,11 +40,11 @@ class HistroyRepository {
         return users
     }
 
-    fun addProductToDatabase(product: RegisterInfo){
-        val productRef = database.getReference("Product")
-        productRef.child("user Id").push().setValue(product)
+    fun addProductToDatabase(product: Item){
+        val productRef = database.getReference("Item")
+        productRef.push().setValue(product)
 
-        /*
+       /*
         val user = History()
         database.getReference("User").push().setValue(user)
         database.getReference("User").push().setValue(user)
@@ -51,7 +52,9 @@ class HistroyRepository {
         database.getReference("User").push().setValue(user)
         database.getReference("User").push().setValue(user)
 
-         */
+        */
+
+
     }
 
 

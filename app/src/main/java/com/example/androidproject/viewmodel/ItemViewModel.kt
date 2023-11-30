@@ -31,8 +31,4 @@ class ItemViewModel:ViewModel(){
         repository.observeUser(_userList)
     }
 
-    fun registerProduct(item : Item){
-        repository.addProductToDatabase(item)
-    }
-
 }

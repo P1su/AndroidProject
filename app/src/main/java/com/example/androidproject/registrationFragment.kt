@@ -44,16 +44,14 @@ class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         // 저장하면
         binding?.btnSave?.setOnClickListener {
             val date = getTime()
-            val product = RegisterInfo(" ", binding?.edtTitle.toString(), binding?.edtPrice.toString(),
-                category.toString(), " ", binding?.edtContent.toString(), " ", date
-            )
-            val prod2 = Item(" ", binding?.edtTitle.toString(), binding?.edtPrice.toString(),
-                category.toString(), " ", binding?.edtContent.toString(), " ", date,
+
+            val prod2 = Item(" ", binding?.edtTitle?.text.toString(), binding?.edtPrice?.text.toString(),
+                category.toString(), " ", binding?.edtContent?.text.toString(), " ", date,
                 selled = false,
                 like = false
             )
-            viewModel.registerProduct(product)
-            itemViewModel.registerProduct(prod2)
+            viewModel.registerProduct(prod2)
+
         }
 
     }

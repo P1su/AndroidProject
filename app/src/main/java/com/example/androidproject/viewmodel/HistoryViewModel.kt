@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.androidproject.dataclass.History
+import com.example.androidproject.dataclass.Item
 import com.example.androidproject.dataclass.RegisterInfo
 import com.example.androidproject.repository.HistroyRepository
 
@@ -23,7 +24,7 @@ class HistoryViewModel: ViewModel(){
         return _user
     }
 
-    fun registerProduct(product: RegisterInfo){
+    fun registerProduct(product: Item){
         repository.addProductToDatabase(product)
     }
 
