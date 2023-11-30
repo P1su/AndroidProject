@@ -42,7 +42,8 @@ class HistroyRepository {
 
     fun addProductToDatabase(product: Item){
         val productRef = database.getReference("Item")
-        productRef.push().setValue(product)
+        productRef.child("user Id").push().setValue(product)
+
 
        /*
         val user = History()

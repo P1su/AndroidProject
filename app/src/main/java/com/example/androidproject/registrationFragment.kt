@@ -45,12 +45,14 @@ class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         binding?.btnSave?.setOnClickListener {
             val date = getTime()
 
-            val prod2 = Item(" ", binding?.edtTitle?.text.toString(), binding?.edtPrice?.text.toString(),
+            val product = Item(" ", binding?.edtTitle?.text.toString(), binding?.edtPrice?.text.toString(),
                 category.toString(), " ", binding?.edtContent?.text.toString(), " ", date,
                 selled = false,
                 like = false
             )
-            viewModel.registerProduct(prod2)
+            viewModel.registerProduct(product)
+
+           val a = 0
 
         }
 
