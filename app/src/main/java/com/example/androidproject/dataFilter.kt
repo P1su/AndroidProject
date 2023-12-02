@@ -24,9 +24,9 @@ class dataFilter() {
         filteredList.clear()
         for(i in 0..<it.count()){
 
-         /*   if(it[i].price in startPrice..endPrice){
+            if(it[i].price.toInt() in startPrice..endPrice){
                 filteredList += it[i]
-            }*/
+            }
         }
 
         return filteredList

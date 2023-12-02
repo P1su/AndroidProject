@@ -9,8 +9,10 @@ import com.example.androidproject.databinding.ItemListBinding
 import com.example.androidproject.dataclass.Item
 import com.example.androidproject.viewmodel.ItemViewModel
 
-class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerView.Adapter<itemViewAdapter.Holder>() {//배열 정의된 item을 생성자로 받음
-
+class itemViewAdapter(private var items: LiveData<ArrayList<Item>>, callback : OnLikeClickListener): RecyclerView.Adapter<itemViewAdapter.Holder>() {//배열 정의된 item을 생성자로 받음
+    private val likeClickListener = callback // 콜백함수,,
+    //어댑토 내부에서 뷰모델을 정의하여 값을 내보내면 안전성이 떨어져서 콜백함수를 사용하여
+    //좋아요 값을 변경하는 과정을 프래그먼트 내에서 처리하도록 사용
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {//viewholder가 생성
         val binding = ItemListBinding.inflate(LayoutInflater.from(parent.context))//,parent, false
 
@@ -26,14 +28,14 @@ class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerVie
 
         items.value?.get(position)?.let {
             holder.bind(it)
+
         }
 
 
     }
 
-    class Holder(private val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class Holder(private val binding: ItemListBinding): RecyclerView.ViewHolder(binding.root) {
         //뷰홀더
-
         fun bind(items: Item) {
 
             val viewModel = ItemViewModel()
@@ -46,10 +48,11 @@ class itemViewAdapter(private var items: LiveData<ArrayList<Item>>): RecyclerVie
 
             binding.btnLike.setOnClickListener {
 
+
                 if(items.like == false)items.like = true
                 else items.like = false
-
-                viewModel.setLike(items.like, items.title)
+                likeClickListener.onLikeClick(items.like, items.title)
+            //    viewModel.setLike(items.like, items.title)
 
             }
 

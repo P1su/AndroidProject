@@ -21,7 +21,6 @@ import java.time.format.DateTimeFormatter
 
 class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private val viewModel: HistoryViewModel by activityViewModels()
-    private val itemViewModel : ItemViewModel by activityViewModels()//P
     private var binding: FragmentRegistrationBinding? = null
     private var category: String ?= null
 
@@ -45,14 +44,12 @@ class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
         binding?.btnSave?.setOnClickListener {
             val date = getTime()
 
-            val product = Item(" ", binding?.edtTitle?.text.toString(), binding?.edtPrice?.text.toString(),
+            val prod = Item(" ", binding?.edtTitle?.text.toString(), binding?.edtPrice?.text.toString(),
                 category.toString(), " ", binding?.edtContent?.text.toString(), " ", date,
                 selled = false,
                 like = false
             )
-            viewModel.registerProduct(product)
-
-           val a = 0
+            viewModel.registerProduct(prod)
 
         }
 

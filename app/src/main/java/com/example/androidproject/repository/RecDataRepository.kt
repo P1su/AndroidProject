@@ -28,7 +28,6 @@ class RecDataRepository {
                         getData?.let {//value는
                             listdata.add(it)
                         }
-
                         userList.postValue(listdata)
                     }
                 }
@@ -73,8 +72,6 @@ class RecDataRepository {
 
 
     }
-    fun addProductToDatabase(item: Item){
-        userRef.push().setValue(item)
-    }
+
 
 }

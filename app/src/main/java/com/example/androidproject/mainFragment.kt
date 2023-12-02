@@ -15,7 +15,7 @@ import com.example.androidproject.databinding.FragmentMainBinding
 import com.example.androidproject.dataclass.Item
 import com.example.androidproject.viewmodel.ItemViewModel
 import com.google.android.material.slider.RangeSlider
-class mainFragment : Fragment() {
+class mainFragment : Fragment(), OnLikeClickListener {
 
     private var searchViewTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {//검색 버튼 입력시 호출
@@ -49,7 +49,7 @@ class mainFragment : Fragment() {
 
         return binding?.root
     }
-    private val itemViewAdapter get()= itemViewAdapter(viewList)
+    private val itemViewAdapter get()= itemViewAdapter(viewList, this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,6 +77,9 @@ class mainFragment : Fragment() {
 
     }
 
+    override fun onLikeClick(value: Boolean, title:String) {
+        viewModel.setLike(value, title)
+    }
     private fun filterList(query: String?) {//입력된 텍스트를 받아옴
         val filteredList = ArrayList<Item>()//새 리사이클러뷰를 위한 리스트 생성
 

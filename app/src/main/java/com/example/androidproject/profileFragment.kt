@@ -12,7 +12,7 @@ import com.example.androidproject.databinding.FragmentProfileBinding
 import com.example.androidproject.dataclass.Item
 import com.example.androidproject.viewmodel.ItemViewModel
 
-class profileFragment : Fragment() {
+class profileFragment : Fragment(),OnLikeClickListener {
 
     private val filter = dataFilter()
     private var filteredList = ArrayList<Item>()
@@ -49,7 +49,7 @@ class profileFragment : Fragment() {
                 Toast.makeText(context,"판매중인 상품이 없습니다.",Toast.LENGTH_SHORT).show()
             }else {
                 viewModel.setData(filteredList)
-                binding?.recMyitem?.adapter = itemViewAdapter(viewList)
+                binding?.recMyitem?.adapter = itemViewAdapter(viewList, this)
             }
         }
 
@@ -62,7 +62,7 @@ class profileFragment : Fragment() {
                 Toast.makeText(context,"판매 완료된 상품이 없습니다.",Toast.LENGTH_SHORT).show()
             }else{
                 viewModel.setData(filteredList)
-                binding?.recMyitem?.adapter = itemViewAdapter(viewList)
+                binding?.recMyitem?.adapter = itemViewAdapter(viewList, this)
             }
         }
 
@@ -76,10 +76,13 @@ class profileFragment : Fragment() {
                 Toast.makeText(context, "찜한 상품이 없습니다.", Toast.LENGTH_SHORT).show()
             }else{
                 viewModel.setData(filteredList)
-                binding?.recMyitem?.adapter = itemViewAdapter(viewList)
+                binding?.recMyitem?.adapter = itemViewAdapter(viewList, this)
             }
         }
 
+    }
+    override fun onLikeClick(value: Boolean, title:String) {
+        viewModel.setLike(value, title)
     }
     override fun onDestroyView() {
         super.onDestroyView()
