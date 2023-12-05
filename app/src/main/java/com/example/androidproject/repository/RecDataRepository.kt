@@ -14,7 +14,7 @@ class RecDataRepository {
     val userRef = database.getReference("Item")
 
     fun observeUser(userList : MutableLiveData<ArrayList<Item>>){
-        userRef.addValueEventListener(object:ValueEventListener{ //함수 2개의 객체,,,,를 상속받아서 event에 담음,,일종의 인터페이스
+        userRef.child("user Id").addValueEventListener(object:ValueEventListener{ //함수 2개의 객체,,,,를 상속받아서 event에 담음,,일종의 인터페이스
 
             val listdata: ArrayList<Item> = ArrayList()
 
@@ -44,10 +44,9 @@ class RecDataRepository {
 
         val map = mutableMapOf<String, Boolean>("like" to newValue)
 
-        userRef.addListenerForSingleValueEvent(object :ValueEventListener{
+        userRef.child("user Id").addListenerForSingleValueEvent(object :ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
-
 
                 for(userSnapshot in snapshot.children){
 
@@ -56,7 +55,7 @@ class RecDataRepository {
                     if( getData?.title== title){
 
                         userSnapshot.key?.let{
-                            userRef.child(it).updateChildren(map as Map<String, Any>)
+                            userRef.child("user Id").child(it).updateChildren(map as Map<String, Any>)
                         }
                         getData.like = newValue
                     }

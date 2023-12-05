@@ -63,9 +63,9 @@ class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     }
     override fun onMenuItemClick(item: MenuItem?): Boolean {
        category = when(item?.itemId){
-           R.id.homeAppliances -> "homeAppliances"
-           R.id.instrument -> "instrument"
-           R.id.electronics -> "electronics"
+           R.id.homeAppliances -> "가전제품"
+           R.id.instrument -> "악기"
+           R.id.electronics -> "전자기기"
            else -> null
        }
         return item != null
@@ -75,7 +75,7 @@ class registrationFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getTime(): String {
         val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초")
+        val formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")
 
         return current.format(formatter)
     }
