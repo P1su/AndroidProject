@@ -32,13 +32,13 @@ class historyFragment : Fragment() {
             val user = viewModel.user.value
             user?.let{
                 binding?.recUsers?.layoutManager = LinearLayoutManager(context)
-                binding?.recUsers?.adapter = HistoryAdapter(user)
+                binding?.recUsers?.adapter = HistoryAdapter(it)
             }
         }
         /*
         val user = History("userId", "date", "lastMsg", "profileUrl", "productUrl")
         viewModel.addUser(user)
-        
+
          */
 
     }

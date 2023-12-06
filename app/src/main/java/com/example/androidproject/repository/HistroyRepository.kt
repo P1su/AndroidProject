@@ -16,12 +16,11 @@ class HistroyRepository {
     private val userRef = database.getReference("User")
     fun observeUsers(users : MutableLiveData<ArrayList<History>>) {
 
-
         userRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val usersData = ArrayList<History>()
-                    for( user in snapshot.children){
-                        val user = user.getValue<History>()
+                    for( snap in snapshot.children){
+                        val user = snap.getValue<History>()
                         user?.let{
                             usersData.add(it)
                         }
