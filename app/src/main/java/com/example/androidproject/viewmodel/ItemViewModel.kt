@@ -19,16 +19,4 @@ class ItemViewModel:ViewModel(){
         repository.setLike(newLike, title)
     }
 
-    fun setData(newList : ArrayList<Item>){
-        if(newList.isEmpty()){
-            resetData()
-        }else {
-            _userList.value = newList
-        }
-    }
-
-    fun resetData(){//필터링된 _userlist를 다시 초기화 시켜준다
-        repository.observeUser(_userList)
-    }
-
 }
