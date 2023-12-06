@@ -1,120 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout3"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".registrationFragment">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints">
+    <EditText
+        android:id="@+id/edt_title"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="제목"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <EditText
+        android:id="@+id/edt_price"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:hint="가격"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_title" />
 
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="제목"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+    <Button
+        android:id="@+id/btn_type"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:text="카테고리 선택"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_price" />
 
-            <EditText
-                android:id="@+id/edt_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="입력"
-                android:inputType="text"
-                android:textSize="20sp" />
-        </LinearLayout>
+    <Button
+        android:id="@+id/btn_pickImg"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:text="사진 선택"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_product" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <Button
+        android:id="@+id/btn_location"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:text="직거래 위치 선택"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_pickImg" />
 
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="가격"
-                android:textAlignment="center"
-                android:textSize="20sp" />
+    <EditText
+        android:id="@+id/edt_content"
+        android:layout_width="350dp"
+        android:layout_height="220dp"
+        android:ems="10"
+        android:gravity="start"
+        android:hint="상품 설명"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_type" />
 
-            <EditText
-                android:id="@+id/edt_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="입력"
-                android:inputType="text"
-                android:textSize="20sp" />
-        </LinearLayout>
+    <ImageView
+        android:id="@+id/img_product"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="4dp"
+        android:background="#DAC9F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_content"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
 
-        <Button
-            android:id="@+id/btn_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="카테고리"
-            android:textSize="16sp" />
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:text="저장"
+        app:layout_constraintEnd_toEndOf="@+id/btn_location"
+        app:layout_constraintTop_toBottomOf="@+id/btn_location" />
 
-        <Button
-            android:id="@+id/btn_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="사진"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="106dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:text="상품설명"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edt_content"
-            android:layout_width="match_parent"
-            android:layout_height="342dp"
-            android:ems="10"
-            android:hint="입력"
-            android:inputType="text"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btn_place"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="직거래 위치 선택"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="저장"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
