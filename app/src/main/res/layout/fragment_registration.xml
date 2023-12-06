@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edt_title"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="제목"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_price"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:hint="가격"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_title" />
+
+    <Button
+        android:id="@+id/btn_type"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:text="카테고리 선택"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_price" />
+
+    <Button
+        android:id="@+id/btn_pickImg"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:text="사진 선택"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_product" />
+
+    <Button
+        android:id="@+id/btn_location"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:text="직거래 위치 선택"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_pickImg" />
+
+    <EditText
+        android:id="@+id/edt_content"
+        android:layout_width="350dp"
+        android:layout_height="220dp"
+        android:ems="10"
+        android:gravity="start"
+        android:hint="상품 설명"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_type" />
+
+    <ImageView
+        android:id="@+id/img_product"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="4dp"
+        android:background="#DAC9F8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_content"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:text="저장"
+        app:layout_constraintEnd_toEndOf="@+id/btn_location"
+        app:layout_constraintTop_toBottomOf="@+id/btn_location" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
