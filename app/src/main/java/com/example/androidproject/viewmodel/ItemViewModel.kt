@@ -18,5 +18,9 @@ class ItemViewModel:ViewModel(){
     fun setLike(newLike : Boolean, title : String){
         repository.setLike(newLike, title)
     }
+    fun delData(title: String){
+        repository.delData(title)
+
+    }
 
 }

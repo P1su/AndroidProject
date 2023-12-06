@@ -24,9 +24,8 @@ class profileFragment : Fragment(),OnRecyclerViewClickListener {
     var binding : FragmentProfileBinding ?= null
     private val viewModel: ItemViewModel by activityViewModels()
     private val viewList get() = viewModel.userList//getter 사용하기!! LiveData<Arraylist>
-    //private val itemViewAdapter get()= itemViewAdapter2(viewList, this)
 
-    lateinit var adapter: itemViewAdapter
+    private lateinit var adapter: itemViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +67,7 @@ class profileFragment : Fragment(),OnRecyclerViewClickListener {
             if(filteredList.isEmpty()){
                 Toast.makeText(context,"판매중인 상품이 없습니다.",Toast.LENGTH_SHORT).show()
             }else {
-                adapter.changeData(filteredList)
+                adapter.changeData2(filteredList)
 
             }
         }
@@ -96,7 +95,7 @@ class profileFragment : Fragment(),OnRecyclerViewClickListener {
             if(filteredList.isEmpty()) {
                 Toast.makeText(context, "찜한 상품이 없습니다.", Toast.LENGTH_SHORT).show()
             }else{
-              adapter.changeData(filteredList)
+              adapter.changeData2(filteredList)
 
             }
         }
@@ -127,13 +126,4 @@ class profileFragment : Fragment(),OnRecyclerViewClickListener {
     }
 
 
-/*    companion object {
-        fun newInstance(param1: String, param2: String) =
-            mainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }*/
 }

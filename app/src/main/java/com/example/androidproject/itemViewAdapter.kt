@@ -17,27 +17,19 @@ class itemViewAdapter( private var items: ArrayList<Item>?, callback : OnRecycle
     //어댑토 내부에서 뷰모델을 정의하여 값을 내보내면 안전성이 떨어져서 콜백함수를 사용하여
     //좋아요 값을 변경하는 과정을 프래그먼트 내에서 처리하도록 사용
 
-   /* fun changeData(newItems : ArrayList<Item>?){
+    fun changeData(newItems : ArrayList<Item>?){
 
         newItems?.let{
-            val diffUtil = DiffUtilCallback(oldList, it)
+            val diffUtil = DiffUtilCallback(this.items, it)
             val diffResult = DiffUtil.calculateDiff(diffUtil)
-
-           /* this.items?.run{
-                clear()
-                addAll(newItems)
-                diffResult.dispatchUpdatesTo(this@itemViewAdapter)
-
-
-            }*/
 
             this.items = newItems
 
             diffResult.dispatchUpdatesTo(this@itemViewAdapter)
 
         }
-    }*/
-    fun changeData(newItem:ArrayList<Item>?){
+    }
+    fun changeData2(newItem:ArrayList<Item>?){
         this.items = newItem
         notifyDataSetChanged()
     }
@@ -72,6 +64,7 @@ class itemViewAdapter( private var items: ArrayList<Item>?, callback : OnRecycle
             binding.txtBody.text = items.content
             binding.txtLocation.text = items.location
             binding.txtId.text = items.userId
+            binding.txtPirce.text = items.price
 
             binding.btnLike.setOnClickListener {
 

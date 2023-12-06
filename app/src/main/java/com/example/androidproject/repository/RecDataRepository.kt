@@ -14,7 +14,8 @@ class RecDataRepository {
     val userRef = database.getReference("Item")
 
     fun observeUser(userList : MutableLiveData<ArrayList<Item>>){
-        userRef.child("user Id").addValueEventListener(object:ValueEventListener{ //함수 2개의 객체,,,,를 상속받아서 event에 담음,,일종의 인터페이스
+
+        userRef.addValueEventListener(object:ValueEventListener{ //함수 2개의 객체,,,,를 상속받아서 event에 담음,,일종의 인터페이스
 
             val listdata: ArrayList<Item> = ArrayList()
 
@@ -24,11 +25,16 @@ class RecDataRepository {
 
                     for(userSnapshot in snapshot.children){
 
-                        val getData = userSnapshot.getValue(Item::class.java)
-                        getData?.let {//value는
-                            listdata.add(it)
+                        for(childSnapshot in userSnapshot.children){//2번 탐색,,,,,,
+
+                            val getData = childSnapshot.getValue(Item::class.java)
+                            getData?.let {//value는
+                                listdata.add(it)
+                            }
+
+                            userList.postValue(listdata)
                         }
-                        userList.postValue(listdata)
+
                     }
                 }
             }
@@ -44,20 +50,26 @@ class RecDataRepository {
 
         val map = mutableMapOf<String, Boolean>("like" to newValue)
 
-        userRef.child("user Id").addListenerForSingleValueEvent(object :ValueEventListener{
+        userRef.addListenerForSingleValueEvent(object :ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 for(userSnapshot in snapshot.children){
+                    for(childSnapshot in userSnapshot.children){
+                        val getData = childSnapshot.getValue(Item::class.java)
 
-                    val getData = userSnapshot.getValue(Item::class.java)
+                        if( getData?.title== title){
 
-                    if( getData?.title== title){
+                            userSnapshot.key?.let{
+                                val userKey = it
+                                childSnapshot.key?.let{
+                                    userRef.child(userKey).child(it).updateChildren(map as Map<String, Any>)
+                                }
 
-                        userSnapshot.key?.let{
-                            userRef.child("user Id").child(it).updateChildren(map as Map<String, Any>)
+                            }
+
+                            getData.like = newValue
                         }
-                        getData.like = newValue
                     }
 
                 }
@@ -70,6 +82,39 @@ class RecDataRepository {
         })
 
 
+    }
+    fun delData(title:String) {
+
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                for (userSnapshot in snapshot.children) {
+                    for (childSnapshot in userSnapshot.children) {
+                        val getData = childSnapshot.getValue(Item::class.java)
+
+                        if (getData?.title == title) {
+
+                            userSnapshot.key?.let {
+                                val userKey = it
+                                childSnapshot.key?.let {
+                                    userRef.child(userKey).child(it).removeValue()
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+
+        })
     }
 
 

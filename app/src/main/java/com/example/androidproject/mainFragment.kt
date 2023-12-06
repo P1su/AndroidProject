@@ -38,7 +38,7 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
     private var filteredList = ArrayList<Item>()//필터링된 아이템 담음
     private val tempList get()=viewList.value//필터 해제에 필요한 초기화 데이터
 
-    lateinit var adapter:itemViewAdapter//어댑터
+    private lateinit var adapter:itemViewAdapter//어댑터
 
 
 
@@ -61,14 +61,13 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewList.observe(viewLifecycleOwner) {
+        viewList.observe(viewLifecycleOwner) {//뷰모델 관찰
             viewList.value?.let {
                 adapter = itemViewAdapter(it, this)//초기 어댑터는 뷰리스트 전체를 담아준다.
             }
 
             binding?.recItem?.layoutManager = LinearLayoutManager(context)
             binding?.recItem?.adapter = adapter
-
 
         }
 
@@ -115,8 +114,9 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
                 filteredList = filter.queryFilter(it, query)
 
             }
-            adapter.changeData(filteredList)
+            adapter.changeData2(filteredList)
         }
+
 
     }
     private fun showDialog() {

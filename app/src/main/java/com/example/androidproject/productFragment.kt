@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.androidproject.databinding.FragmentProductBinding
 import com.example.androidproject.databinding.FragmentProfileBinding
 import com.example.androidproject.viewmodel.ItemViewModel
@@ -24,10 +25,17 @@ class productFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentProductBinding.inflate(inflater)
+
         binding?.txtProdTitle?.text = arguments?.getString("title")
         binding?.txtProdContent?.text = arguments?.getString("content")
         binding?.txtProdDate?.text = arguments?.getString("date")
+
+        binding?.btnDel?.setOnClickListener{
+            viewModel.delData(binding?.txtProdTitle?.text.toString())
+            findNavController().navigate(R.id.action_productFragment_to_mainFragment)
+        }
 
         return binding?.root
     }
