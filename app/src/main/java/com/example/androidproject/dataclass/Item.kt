@@ -3,6 +3,7 @@ package com.example.androidproject.dataclass
 data class Item(
 
     var userId: String="",
+    var productId: String="",
     var title: String="",
     var price: String="",
     var type: String="",

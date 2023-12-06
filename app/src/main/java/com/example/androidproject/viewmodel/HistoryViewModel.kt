@@ -5,24 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.androidproject.dataclass.History
 import com.example.androidproject.dataclass.Item
-import com.example.androidproject.dataclass.RegisterInfo
 import com.example.androidproject.repository.HistroyRepository
 
 
 
 class HistoryViewModel: ViewModel(){
+    private val repository = HistroyRepository()
     private val _user = MutableLiveData<ArrayList<History>>()
+
+    init{
+        repository.observeUsers(_user)
+    }
     val user : LiveData<ArrayList<History>> get() = _user
 
-    private val repository = HistroyRepository()
 
-
-    fun fetchUser(): LiveData<ArrayList<History>>{
-        repository.getUser().observeForever{
-            _user.value = it
-        }
-        return _user
-    }
 
     fun registerProduct(product: Item){
         repository.addProductToDatabase(product)
