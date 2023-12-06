@@ -31,11 +31,16 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
 
     }
 
-    private val viewModel: ItemViewModel by activityViewModels()
-    var binding: FragmentMainBinding? = null
-    private val viewList get() = viewModel.userList//getter 사용하기!! LiveData<Arraylist>
-    private val filter = DataFilter()
-    private var filteredList = ArrayList<Item>()
+    private val viewModel: ItemViewModel by activityViewModels()//뷰모델
+    var binding: FragmentMainBinding? = null//바인딩
+    private val viewList get() = viewModel.userList//getter로 LiveData<Arraylist> 호출
+    private val filter = DataFilter()//필터링 처리하는 함수 담은 클래스
+    private var filteredList = ArrayList<Item>()//필터링된 아이템 담음
+    private val tempList get()=viewList.value//필터 해제에 필요한 초기화 데이터
+
+    lateinit var adapter:itemViewAdapter//어댑터
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,17 +55,21 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
 
         return binding?.root
     }
-    private val itemViewAdapter get()= itemViewAdapter(viewList, this)
+    //private val itemViewAdapter get()= itemViewAdapter2(viewList, this)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewList.observe(viewLifecycleOwner) {
-            viewList.let {
-                binding?.recItem?.layoutManager = LinearLayoutManager(context)
-                binding?.recItem?.adapter = itemViewAdapter
+            viewList.value?.let {
+                adapter = itemViewAdapter(it, this)//초기 어댑터는 뷰리스트 전체를 담아준다.
             }
+
+            binding?.recItem?.layoutManager = LinearLayoutManager(context)
+            binding?.recItem?.adapter = adapter
+
+
         }
 
         binding?.searchTitle?.setOnQueryTextListener(searchViewTextListener)
@@ -80,11 +89,13 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
     }
 
     override fun onLikeClick(value: Boolean, title:String) {//좋아요 버튼 클릭시
+        if(value) Toast.makeText(context, "찜했습니다.", Toast.LENGTH_SHORT).show() else Toast.makeText(context, "찜 취소", Toast.LENGTH_SHORT).show()
+
         viewModel.setLike(value, title) //뷰모델로 변경된 좋아요 값을 보내줌
 
     }
 
-    override fun onViewClick(view: View, pos : Int) {//해당 아이템 클릭시
+    override fun onViewClick(pos : Int) {//해당 아이템 클릭시
         val args = Bundle()//넘겨줄 번들 생성
 
         viewList.value?.let{
@@ -98,18 +109,13 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
     }
     private fun filterList(query: String?) {//입력된 텍스트를 받아옴
 
-        val filteredList = ArrayList<Item>()//새 리사이클러뷰를 위한 리스트 생성
-
         query?.let {//텍스트가 널이 아니면
 
             viewList.value?.let {
-                for(i in it){
-                    if(i.title.lowercase().contains(query)){
-                        filteredList.add(i)
-                    }
-                }
+                filteredList = filter.queryFilter(it, query)
+
             }
-            viewModel.setData(filteredList)
+            adapter.changeData(filteredList)
         }
 
     }
@@ -118,8 +124,8 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
 
         var builder = AlertDialog.Builder(context)?.let { it ->//다이얼로그 구현
             it.setTitle("카테고리")//다이얼로그의 이름
-            //멀티 선택 이벤트
-            it.setMultiChoiceItems( // 아이템을 여러개 선택
+
+            it.setMultiChoiceItems( // 멀티선택 이벤트 ,,, 아이템을 여러개 선택
                 R.array.categories, null//string.xml파일에 데이터를 저장
             ) { dialog, which, isChecked -> // DialogInterface.OnMultiChoiceClickListener object의 override onClick함수 << 람다형식
 
@@ -133,24 +139,24 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
 
             it.setPositiveButton("확인") { dialog, which ->
 
-                viewModel.userList.value?.let {
+                viewList.value?.let {
                     filteredList = filter.dialogFilter(it, selectedCategory)
-
+                        //   itemViewAdapter(filteredList,this)
                 }
 
                 if (filteredList.isEmpty()) {//해당하는 제품이 아뭓도 없다면
                     Toast.makeText(context, "해당하는 상품이 없습니다.", Toast.LENGTH_SHORT).show()//토스트 메세지 띄운다.
 
                 } else {
-
-                    viewModel.setData(filteredList)
+                    adapter.changeData(filteredList)
                 }//해당하는 제품들만 노출
 
             }
 
             it.setNegativeButton("닫기") { dialog, which -> // Dialoginterface.OnclieckListner...dialog는 DialogInterface>, which는 int이다
                 dialog.cancel()//닫으면서 초기화
-                viewModel.resetData()
+
+                adapter.changeData(tempList)
             }
 
             it.show()//다일얼로그를 보여줌
@@ -184,7 +190,7 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
 
             it.setPositiveButton("확인"){dialog , which -> //다이얼로그의 내장 함수. 슬라이드 범위 설정 후 확인을 누를 시
 
-                viewModel.userList.value?.let {
+                viewList.value?.let {
                     filteredList = filter.priceFilter(it, startPrice, endPrice)
 
                 }
@@ -192,14 +198,14 @@ class mainFragment : Fragment(), OnRecyclerViewClickListener {
                 if (filteredList.isEmpty()) {
                     Toast.makeText(context, "희망하시는 가격대의 상품이 없습니다.", Toast.LENGTH_SHORT).show()
 
-                } else viewModel.setData(filteredList)
+                } else adapter.changeData(filteredList)
 
 
             }
 
             it.setNegativeButton("닫기"){dialog , which ->
                 dialog.cancel()
-                viewModel.resetData()
+                adapter.changeData(tempList)
             }
 
             it.show()

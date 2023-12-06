@@ -8,6 +8,15 @@ import com.example.androidproject.viewmodel.ItemViewModel
 class DataFilter() {
     private val filteredList = ArrayList<Item>()
 
+    fun queryFilter(it : ArrayList<Item>, query : String):ArrayList<Item>{
+        filteredList.clear()
+        for(i in it){
+            if(i.title.lowercase().contains(query)){
+                filteredList.add(i)
+            }
+        }
+        return filteredList
+    }
     fun dialogFilter(it : ArrayList<Item>, typeList : ArrayList<String>) : ArrayList<Item>{
         filteredList.clear()
         for(i in 0..<it.count()){//뷰모델의 아이템들을 대상으로
