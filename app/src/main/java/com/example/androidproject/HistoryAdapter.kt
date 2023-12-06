@@ -7,7 +7,7 @@ import com.example.androidproject.databinding.HistoryListBinding
 import com.example.androidproject.dataclass.History
 
 
-class HistoryAdapter(val users: ArrayList<History>): RecyclerView.Adapter<HistoryAdapter.Holder>(){
+class HistoryAdapter(private val users: ArrayList<History>): RecyclerView.Adapter<HistoryAdapter.Holder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = HistoryListBinding.inflate(LayoutInflater.from(parent.context))
         return Holder(binding)

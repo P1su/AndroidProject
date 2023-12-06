@@ -18,6 +18,13 @@ class HistoryViewModel: ViewModel(){
     }
     val user : LiveData<ArrayList<History>> get() = _user
 
+    /*
+    fun addUser(user: History){
+        repository.addUser(user)
+    }
+
+     */
+
 
 
     fun registerProduct(product: Item){

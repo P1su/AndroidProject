@@ -12,29 +12,33 @@ import com.google.firebase.ktx.Firebase
 
 
 class HistroyRepository {
-    val database = Firebase.database
-
+    private val database = Firebase.database
+    private val userRef = database.getReference("User")
     fun observeUsers(users : MutableLiveData<ArrayList<History>>) {
-        val userRef = database.getReference("User")
+
 
         userRef.addValueEventListener(object: ValueEventListener {
-            val usersData = ArrayList<History>()
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for( snap in snapshot.children){
-                        val user = snap.getValue<History>()
+                val usersData = ArrayList<History>()
+                    for( user in snapshot.children){
+                        val user = user.getValue<History>()
                         user?.let{
                             usersData.add(it)
                         }
                     }
                     users.postValue(usersData)
-                }
             }
             override fun onCancelled(error: DatabaseError) {
 
             }
         })
     }
+    /*
+    fun addUser(user: History){
+        userRef.push().setValue(user)
+    }
+
+     */
 
     fun addProductToDatabase(product: Item){
         val productRef = database.getReference("Item")

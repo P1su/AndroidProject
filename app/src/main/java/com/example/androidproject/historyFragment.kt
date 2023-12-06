@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidproject.databinding.FragmentHistoryBinding
+import com.example.androidproject.dataclass.History
 import com.example.androidproject.viewmodel.HistoryViewModel
 
 
 
 class historyFragment : Fragment() {
-    val viewModel : HistoryViewModel by viewModels()
-    var binding : FragmentHistoryBinding? = null
+    private val viewModel : HistoryViewModel by viewModels()
+    private var binding : FragmentHistoryBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,14 +28,21 @@ class historyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user = viewModel.user.value
-        user?.let{
-            binding?.recUsers?.layoutManager = LinearLayoutManager(context)
-            binding?.recUsers?.adapter = HistoryAdapter(user)
+        viewModel.user.observe(viewLifecycleOwner){
+            val user = viewModel.user.value
+            user?.let{
+                binding?.recUsers?.layoutManager = LinearLayoutManager(context)
+                binding?.recUsers?.adapter = HistoryAdapter(user)
+            }
         }
-
+        /*
+        val user = History("userId", "date", "lastMsg", "profileUrl", "productUrl")
+        viewModel.addUser(user)
+        
+         */
 
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
