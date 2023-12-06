@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,13 +13,18 @@ import com.example.androidproject.databinding.FragmentProfileBinding
 import com.example.androidproject.dataclass.Item
 import com.example.androidproject.viewmodel.ItemViewModel
 
-class profileFragment : Fragment(),OnLikeClickListener {
+class profileFragment : Fragment(),OnRecyclerViewClickListener {
 
-    private val filter = dataFilter()
+    private val filter = DataFilter()
     private var filteredList = ArrayList<Item>()
+
     var binding : FragmentProfileBinding ?= null
-    val viewModel: ItemViewModel by activityViewModels()
-    val viewList get() = viewModel.userList//getter 사용하기!! LiveData<Arraylist>
+    private val viewModel: ItemViewModel by activityViewModels()
+    private val viewList get() = viewModel.userList//getter 사용하기!! LiveData<Arraylist>
+   // private val Id = binding?.txtMyId?.text.toString()
+    private val itemViewAdapter get()= itemViewAdapter(viewList, this)
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,47 +42,61 @@ class profileFragment : Fragment(),OnLikeClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val Id = binding?.txtMyId?.text.toString()
 
-        binding?.recMyitem?.layoutManager=LinearLayoutManager(context)
+        /*viewList.observe(viewLifecycleOwner) {
+            viewList.let {
+                binding?.recMyitem?.layoutManager = LinearLayoutManager(context)
+
+            }
+        }*/
+        binding?.recMyitem?.layoutManager = LinearLayoutManager(context)
 
         binding?.btnSelling?.setOnClickListener{//판매중인 항목 보여줌
+            viewModel.resetData()
 
-            viewList.value?.let{
-                filteredList = filter.sellingFilter(it)
+            viewModel.userList.value?.let{
+                filteredList = filter.sellingFilter(it, Id)
             }
 
             if(filteredList.isEmpty()){
                 Toast.makeText(context,"판매중인 상품이 없습니다.",Toast.LENGTH_SHORT).show()
             }else {
                 viewModel.setData(filteredList)
-                binding?.recMyitem?.adapter = itemViewAdapter(viewList, this)
+                binding?.recMyitem?.adapter = itemViewAdapter
             }
         }
 
         binding?.btnSelled?.setOnClickListener{
+            viewModel.resetData()
+
             viewList.value?.let {
-                filteredList = filter.selledFilter(it)
+                filteredList = filter.selledFilter(it, Id)
             }
 
             if(filteredList.isEmpty()){
+
                 Toast.makeText(context,"판매 완료된 상품이 없습니다.",Toast.LENGTH_SHORT).show()
+
             }else{
                 viewModel.setData(filteredList)
-                binding?.recMyitem?.adapter = itemViewAdapter(viewList, this)
+                binding?.recMyitem?.adapter = itemViewAdapter
             }
+
         }
 
         binding?.btnLikelist?.setOnClickListener{
-
+            viewModel.resetData()
             viewModel.userList.value?.let{
-                filteredList = filter.likeFilter(it)
+                filteredList = filter.likeFilter(it, Id)
 
             }
             if(filteredList.isEmpty()) {
                 Toast.makeText(context, "찜한 상품이 없습니다.", Toast.LENGTH_SHORT).show()
             }else{
                 viewModel.setData(filteredList)
-                binding?.recMyitem?.adapter = itemViewAdapter(viewList, this)
+                binding?.recMyitem?.adapter = itemViewAdapter
+
             }
         }
 
@@ -84,8 +104,13 @@ class profileFragment : Fragment(),OnLikeClickListener {
     override fun onLikeClick(value: Boolean, title:String) {
         viewModel.setLike(value, title)
     }
+
+    override fun onViewClick(view: View, pos: Int) {
+        TODO("Not yet implemented")
+    }
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.resetData()
         binding = null
     }
 

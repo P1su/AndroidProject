@@ -1,9 +1,11 @@
 package com.example.androidproject
 
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.example.androidproject.dataclass.Item
+import com.example.androidproject.viewmodel.ItemViewModel
 
-class dataFilter() {
+class DataFilter() {
     private val filteredList = ArrayList<Item>()
 
     fun dialogFilter(it : ArrayList<Item>, typeList : ArrayList<String>) : ArrayList<Item>{
@@ -16,7 +18,6 @@ class dataFilter() {
                 }
             }
         }
-
         return filteredList
     }
 
@@ -31,29 +32,29 @@ class dataFilter() {
 
         return filteredList
     }
-    fun sellingFilter(it : ArrayList<Item>):ArrayList<Item>{
+    fun sellingFilter(it : ArrayList<Item>, Id : String):ArrayList<Item>{
         filteredList.clear()
         for(i in 0..<it.count()){
-            if(it[i].userId == "go" && it[i].selled == false){
+            if(it[i].userId == Id && !it[i].selled){
                 filteredList +=it[i]
             }
         }
 
         return filteredList
     }
-    fun selledFilter(it:ArrayList<Item>):ArrayList<Item>{
+    fun selledFilter(it:ArrayList<Item>, Id: String):ArrayList<Item>{
         filteredList.clear()
         for(i in 0..<it.count()){
-            if(it[i].selled == true)//아이디가 일치하고(임시로"go"라고 저장) 판매중이면(not selled){
+            if(it[i].selled && it[i].userId == Id)//아이디가 일치하고(임시로"go"라고 저장) 판매중이면(not selled){
                 filteredList += it[i]
         }
 
         return filteredList
     }
-    fun likeFilter(it: ArrayList<Item>):ArrayList<Item>{
+    fun likeFilter(it: ArrayList<Item>, Id: String):ArrayList<Item>{
         filteredList.clear()
         for(i in 0..<it.count()){
-            if(it[i].like){
+            if(it[i].like && it[i].userId != Id){
                 filteredList +=it[i]
             }
         }

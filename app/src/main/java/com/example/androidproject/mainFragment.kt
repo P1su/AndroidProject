@@ -1,6 +1,7 @@
 package com.example.androidproject
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +16,7 @@ import com.example.androidproject.databinding.FragmentMainBinding
 import com.example.androidproject.dataclass.Item
 import com.example.androidproject.viewmodel.ItemViewModel
 import com.google.android.material.slider.RangeSlider
-class mainFragment : Fragment(), OnLikeClickListener {
+class mainFragment : Fragment(), OnRecyclerViewClickListener {
 
     private var searchViewTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {//검색 버튼 입력시 호출
@@ -30,10 +31,10 @@ class mainFragment : Fragment(), OnLikeClickListener {
 
     }
 
-    val viewModel: ItemViewModel by activityViewModels()
+    private val viewModel: ItemViewModel by activityViewModels()
     var binding: FragmentMainBinding? = null
-    val viewList get() = viewModel.userList//getter 사용하기!! LiveData<Arraylist>
-    private val filter = dataFilter()
+    private val viewList get() = viewModel.userList//getter 사용하기!! LiveData<Arraylist>
+    private val filter = DataFilter()
     private var filteredList = ArrayList<Item>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,7 @@ class mainFragment : Fragment(), OnLikeClickListener {
         return binding?.root
     }
     private val itemViewAdapter get()= itemViewAdapter(viewList, this)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,13 +79,29 @@ class mainFragment : Fragment(), OnLikeClickListener {
 
     }
 
-    override fun onLikeClick(value: Boolean, title:String) {
-        viewModel.setLike(value, title)
+    override fun onLikeClick(value: Boolean, title:String) {//좋아요 버튼 클릭시
+        viewModel.setLike(value, title) //뷰모델로 변경된 좋아요 값을 보내줌
+
+    }
+
+    override fun onViewClick(view: View, pos : Int) {//해당 아이템 클릭시
+        val args = Bundle()//넘겨줄 번들 생성
+
+        viewList.value?.let{
+            args.putString("title", it[pos].title)
+            args.putString("content", it[pos].content)
+            args.putString("date", it[pos].date)
+        }
+
+        findNavController().navigate(R.id.action_mainFragment_to_productFragment,args)//화면을 이동하면서 argument(번들)을 같이 넘겨줌
+
     }
     private fun filterList(query: String?) {//입력된 텍스트를 받아옴
+
         val filteredList = ArrayList<Item>()//새 리사이클러뷰를 위한 리스트 생성
 
         query?.let {//텍스트가 널이 아니면
+
             viewList.value?.let {
                 for(i in it){
                     if(i.title.lowercase().contains(query)){
@@ -123,7 +141,10 @@ class mainFragment : Fragment(), OnLikeClickListener {
                 if (filteredList.isEmpty()) {//해당하는 제품이 아뭓도 없다면
                     Toast.makeText(context, "해당하는 상품이 없습니다.", Toast.LENGTH_SHORT).show()//토스트 메세지 띄운다.
 
-                } else viewModel.setData(filteredList)//해당하는 제품들만 노출
+                } else {
+
+                    viewModel.setData(filteredList)
+                }//해당하는 제품들만 노출
 
             }
 
@@ -215,6 +236,7 @@ class mainFragment : Fragment(), OnLikeClickListener {
     }*/
     override fun onDestroyView() {
         super.onDestroyView()
+
         binding = null
     }
 

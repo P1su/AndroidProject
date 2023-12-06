@@ -6,17 +6,21 @@
         android:id="@+id/mainFragment"
         android:icon="@drawable/home"
         android:title="홈"
+        android:menuCategory="secondary"
         android:enabled="true"/>
     <item
         android:id="@+id/registrationFragment"
         android:icon="@drawable/edit"
+        android:menuCategory="secondary"
         android:title="글쓰기" />
     <item
         android:id="@+id/historyFragment"
         android:icon="@drawable/chat"
+        android:menuCategory="secondary"
         android:title="대화내역" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/profile"
+        android:menuCategory="secondary"
         android:title="내 정보" />
 </menu>
